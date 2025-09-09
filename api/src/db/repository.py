@@ -6,7 +6,14 @@ from sqlalchemy import insert, select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from .models import Base
+from .models import (
+    Base,
+    Product,
+    Category,
+    User,
+    Order,
+    OrderItem,
+)
 
 
 class AbstractRepository(ABC):
@@ -130,20 +137,20 @@ class SQLAlchemyRepository(AbstractRepository):
 
 
 class CategoryRepository(SQLAlchemyRepository):
-    pass
+    model = Category
 
 
 class ProductRepository(SQLAlchemyRepository):
-    pass
+    model = Product
 
 
 class UserRepository(SQLAlchemyRepository):
-    pass
+    model = User
 
 
 class OrderRepository(SQLAlchemyRepository):
-    pass
+    model = Order
 
 
 class OrderItemRepository(SQLAlchemyRepository):
-    pass
+    model = OrderItem
