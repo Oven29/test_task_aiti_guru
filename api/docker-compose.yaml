@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: .
+      network: host
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-komnata_vpn}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-88678bb6-0cef-41be-97d2-8b46b2268afd}
+    command: >
+      sh -c "alembic upgrade head && python main.py"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - common
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 88678bb6-0cef-41be-97d2-8b46b2268afd
+      POSTGRES_DB: komnata_vpn
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - common
+
+volumes:
+  db-data:
+
+
+networks:
+  common:
+    driver: bridge
